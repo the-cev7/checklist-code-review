@@ -12,6 +12,7 @@
 - Tại local update code mới nhất (merge branch base về `feature.xxx`).
 - Thực hiện việc self test check các case normal (ít nhất phải pass chức năng đang làm).
 - Sử dụng git diff để kiểm tra lại các đoạn code thay đổi có syntax nào sai không.
+- Kiểm tra lại xem trong code có còn lưu lại những đoạn debug nào không? Ví dụ: `console.log()`, `dd()`, `die()`, `fmt.Println()`,...
 
 **FAQ**
 1. Q: Việc test đã có QA lo vậy dev có cần phải self test không?
