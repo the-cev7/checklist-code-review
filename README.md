@@ -97,8 +97,49 @@
     A: Nếu không notes lại thì sau này khi nhìn vào code sẽ ko hiểu được tại sao lại code logic như vậy
 </details>
 
+# :heavy_check_mark: [6] Self-describing test method
+> Unit Test method names must be self-describing
+>
+> Also focus on naming style, keep the naming style consistent across all the test methods and tests.
 
-# :heavy_check_mark: [6] A3 (Arrange, Asset, Act)
+<details>
+    <summary>:point_right: Chi tiết</summary>
+
+**Mục đích:**
+- Test case là tài liệu
+- Đọc vào tên method test có thể biết mục đích của test case
+
+**Thực hiện**
+- Tên test method không cần phải quá ngắn gọn
+- Tên test method phải chỉ ra điều kiện và expect của test case
+- Thống nhất convention trong project, mặc định visibility của 1 method trong class là `public` nên có thể loại bỏ từ `public` trong method test
+
+Chọn một trong các convention sau:
+1. **[Recommend]** Sử dụng prefix `test_`
+
+    ```php
+    function test_it_returns_false_when_input_number_is_odd()
+    ```
+2. Sử dụng annotation `@test` thì tên test method không cần phải bắt đầu bằng `test_`
+
+    ```php
+    /* @test */
+    function it_returns_false_when_input_number_is_odd()
+    ```
+3. Sử dụng `camelCase` thay cho `snake_case`, chỉ nên sử dụng nếu trong project đã viết theo cách này trước đó
+
+    ```php
+    function testItReturnsFalseWhenInputNumberIsOdd()
+    ```
+
+**FAQ**
+1. Q: Tên test method có cần bao gồm tên method của class đang test không?
+
+    A: Có thể. Nhưng tốt hơn là xem class là Unit cần test, khi đó ta đang đi test chức năng hay hành vi của class, khi thực hiện refactor có thể thay đổi tên method nhưng không cần thay đổi tên test method
+</details>
+
+
+# :heavy_check_mark: [7] A3 (Arrange, Asset, Act)
 A3 (Arrange, Asset, Act)
 - Arrange: thiết lập trạng thái, khởi tạo object, giả lập mock
 - Act: Chạy unit đang cần test (method under test)
@@ -144,7 +185,56 @@ A3 (Arrange, Asset, Act)
     ```
 </details>
 
-# :heavy_check_mark: [7] My tests are fast!
+# :heavy_check_mark: [8] Use sematic/proper assert method
+> Keep assert method descriptive. Use proper assert method to improve the readability of code and the error log.
+
+<details>
+    <summary>:point_right: Chi tiết</summary>
+
+Thực tế ta có thể chỉ dùng `assertTrue()`:
+
+```php
+// assertEquals
+$this->assertTrue($expected == $actual);
+// Failed asserting that false is true.
+// vs. Failed asserting that $actual matches expected $expected.
+
+// assertSame
+$this->assertTrue($expected === $actual);
+
+// assertContains
+$this->assertTrue(in_array($actual, $expected);
+
+// assertCount
+$this->assertTrue(count($actual) == $expected);
+
+// assertInstanceOf
+$this->assertTrue($actual instanceOf ExpectedClass);
+```
+
+Nhưng việc dùng method assert thích hợp giúp cho việc đọc hiểu dễ hơn (không phải thực hiện phép so sánh) và message được generate dễ hiểu hơn nếu test case failed.
+</details>
+
+# :heavy_check_mark: [9] If you write code, write tests
+
+<details>
+    <summary>:point_right: Chi tiết</summary>
+
+**Thực hiện**
+
+Mọi PR đều phải chú ý đến test
+- PR thêm feature => viết test cho feature mới
+- PR fix bug => viết test để tránh bug xảy ra 1 lần nữa
+- PR refactor => chạy, update test để đảm bảo không phát sinh ảnh hưởng
+- Nên tích hợp CI để chạy test
+
+**FAQ**:
+1. Q: Thời điểm tốt nhất để viết test?
+
+    A: Thời điểm tốt nhất là khi code còn mới! Thời điểm mà cả code và test đều có thể dễ dàng thay đổi. Tưởng tượng code giống như _đất sét_, khi còn mới thì nó mềm và dễ nặn, nếu để lâu thì nó sẽ cứng và dễ vỡ :smile:
+</details>
+
+# :heavy_check_mark: [10] My tests are fast!
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -174,7 +264,7 @@ A3 (Arrange, Asset, Act)
 - Dự án áp dụng CI để build, test và deploy => Nếu tests chạy quá chậm sẽ dẫn đến việc tích hợp cho cả team bị chậm. Thời gian build của CI mà quá 5 phút thì khó mà chấp nhận được
 </details>
 
-# :heavy_check_mark: [7] Quality over code coverage number!
+# :heavy_check_mark: [11] Quality over code coverage number!
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -190,7 +280,7 @@ A3 (Arrange, Asset, Act)
 - Áp dụng mutation testing vào dự án nếu có thể, để có chỉ số đánh gía tốt hơn => [link](https://medium.com/@maks_rafalko/infection-mutation-testing-framework-c9ccf02eefd1)
 </details>
 
-# :heavy_check_mark: [8] Validate all data sent from the client
+# :heavy_check_mark: [12] Validate all data sent from the client
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -207,7 +297,7 @@ A3 (Arrange, Asset, Act)
 
 </details>
 
-# :heavy_check_mark: [9] Output has no information about SQL query
+# :heavy_check_mark: [13] Output has no information about SQL query
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -223,7 +313,7 @@ A3 (Arrange, Asset, Act)
 
 </details>
 
-# :heavy_check_mark: [10] The orWhere query must be placed in the group
+# :heavy_check_mark: [14] The orWhere query must be placed in the group
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -238,7 +328,7 @@ A3 (Arrange, Asset, Act)
 
 </details>
 
-# :heavy_check_mark: [11] The file upload must be unique name
+# :heavy_check_mark: [15] The file upload must be unique name
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -255,7 +345,7 @@ A3 (Arrange, Asset, Act)
 </details>
 
 
-# :heavy_check_mark: [12] Resolved n + 1 query
+# :heavy_check_mark: [16] Resolved n + 1 query
 
 <details>
     <summary>:point_right: Chi tiết</summary>
@@ -277,7 +367,7 @@ A3 (Arrange, Asset, Act)
     A: Cần dump ra câu SQL raw, sau đó nhờ mọi người review support, nếu không tìm được giải phải thì cần trao đổi lại spec đặt limit nhỏ hơn.
 </details>
 
-# :heavy_check_mark: [13] Time open page < 1000 ms
+# :heavy_check_mark: [17] Time open page < 1000 ms
 
 <details>
     <summary>:point_right: Chi tiết</summary>
